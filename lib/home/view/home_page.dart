@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CounterCubit(),
+      create: (_) => HomeCubit(),
       child: const HomeView(),
     );
   }
@@ -43,14 +43,14 @@ class HomeContent extends StatelessWidget {
           ? webScraper.getElementTitle('ul.adjusted-par > li')
           : webScraper.getElementTitle('ol > li');
       debugPrint(results.toString());
-      context.read<CounterCubit>().setResult(results);
+      context.read<HomeCubit>().setResult(results);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final count = context.select((CounterCubit cubit) => cubit.state);
+    final count = context.select((HomeCubit cubit) => cubit.state);
     var word = '';
     var titleVisible = false;
     return Column(

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 
-class CounterCubit extends Cubit<List<String>> {
-  CounterCubit() : super(['']);
+class HomeCubit extends Cubit<List<String>> {
+  HomeCubit() : super(['']);
 
   void setResult(List<String> text) => emit(text);
 }
