@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kbbi_app/home/cubit/home_cubit.dart';
+import 'package:kbbi_app/modules/home/cubit/home_cubit.dart';
 import 'package:web_scraper/web_scraper.dart';
 
 class KBBI {

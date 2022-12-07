@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kbbi_app/home/home.dart';
-import 'package:kbbi_app/home/view/items/bottom_appbar.dart';
+import 'package:kbbi_app/modules/home/home.dart';
+import 'package:kbbi_app/modules/home/view/items/bottom_appbar.dart';
 import 'package:kbbi_app/utils/colors.dart';
 
 class HomePage extends StatelessWidget {

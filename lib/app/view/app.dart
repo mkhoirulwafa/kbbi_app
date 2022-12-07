@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kbbi_app/home/home.dart';
+import 'package:kbbi_app/modules/home/home.dart';
 import 'package:kbbi_app/l10n/l10n.dart';
 
 class App extends StatelessWidget {
