@@ -37,6 +37,7 @@ class BottomAppbarContent extends StatelessWidget with PreferredSizeWidget {
                   ),
                   contentPadding: EdgeInsets.all(20),
                 ),
+                onSubmitted: (value) => KBBI().fetchMeaning(context, value),
               ),
             ),
             ElevatedButton(
