@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kbbi_app/home/home.dart';
-import 'package:kbbi_app/l10n/l10n.dart';
-import 'package:web_scraper/web_scraper.dart';
+import 'package:kbbi_app/home/view/items/bottom_appbar.dart';
+import 'package:kbbi_app/utils/colors.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,82 +21,62 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.counterAppBarTitle)),
-      body: Center(child: HomeContent()),
+      backgroundColor: HexColor.fromHex('#f7ede2'),
+      appBar: AppBar(
+        title: const Text(
+          'KBBI',
+          style: TextStyle(fontSize: 25),
+        ),
+        centerTitle: true,
+        backgroundColor: HexColor.fromHex('#f28482'),
+        foregroundColor: HexColor.fromHex('#000000'),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
+          ),
+        ),
+        bottom: BottomAppbarContent(),
+      ),
+      body: const Center(child: HomeContent()),
     );
   }
 }
 
 class HomeContent extends StatelessWidget {
-  HomeContent({super.key});
-
-  final TextEditingController controller = TextEditingController();
-  final webScraper = WebScraper('https://kbbi.kemdikbud.go.id');
-
-  Future<void> fetchProducts(BuildContext context) async {
-    FocusManager.instance.primaryFocus?.unfocus();
-
-    if (await webScraper.loadWebPage('/entri/${controller.text}')) {
-      final results = webScraper.getElementTitle('ol > li').isEmpty
-          ? webScraper.getElementTitle('ul.adjusted-par > li')
-          : webScraper.getElementTitle('ol > li');
-      debugPrint(results.toString());
-      context.read<HomeCubit>().setResult(results);
-    }
-  }
+  const HomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final count = context.select((HomeCubit cubit) => cubit.state);
-    var word = '';
-    var titleVisible = false;
+    final meanings = context.select((HomeCubit cubit) => cubit.state);
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          child: TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Masukkan Teks',
-              contentPadding: EdgeInsets.all(10),
-            ),
-            onChanged: (value) {
-              word = value;
-            },
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            titleVisible = !titleVisible;
-            fetchProducts(context);
-          },
-          child: const Text('Cari Arti'),
-        ),
         const SizedBox(
           height: 20,
         ),
-        if (titleVisible)
-          Text(
-            'Arti dari $word',
-            style: const TextStyle(
-              fontSize: 20,
-            ),
+        if (meanings.isEmpty)
+          const CircularProgressIndicator(
+            color: Color(0xfff28482),
           )
         else
-          const SizedBox(),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: count.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(count[index], style: theme.textTheme.bodyMedium),
-            );
-          },
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: meanings.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Text(
+                    meanings[index],
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                );
+              },
+            ),
+          ),
+        const SizedBox(
+          height: 20,
         ),
       ],
     );
